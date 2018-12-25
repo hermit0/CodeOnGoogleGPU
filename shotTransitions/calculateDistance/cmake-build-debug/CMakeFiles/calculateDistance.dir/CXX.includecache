@@ -202,17 +202,19 @@ cblas.h
 math.h
 -
 
-/home/hermit/ShotTransitionsDetection/calculateDistance/CalculateDistance.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/CalculateDistance.hpp
 string
 -
 memory
 -
 cmath
 -
+limits
+-
 caffe/util/math_functions.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/caffe/util/math_functions.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/caffe/util/math_functions.hpp
 
-/home/hermit/ShotTransitionsDetection/calculateDistance/main.cpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/main.cpp
 string
 -
 cstring
@@ -234,17 +236,17 @@ opencv2/highgui/highgui.hpp
 opencv2/videoio.hpp
 -
 boost/algorithm/string.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/boost/algorithm/string.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/boost/algorithm/string.hpp
 boost/filesystem.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/boost/filesystem.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/boost/filesystem.hpp
 caffe/proto/caffe.pb.h
-/home/hermit/ShotTransitionsDetection/calculateDistance/caffe/proto/caffe.pb.h
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/caffe/proto/caffe.pb.h
 caffe/blob.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/caffe/blob.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/caffe/blob.hpp
 caffe/net.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/caffe/net.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/caffe/net.hpp
 CalculateDistance.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/CalculateDistance.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/CalculateDistance.hpp
 caffe/util/io.hpp
-/home/hermit/ShotTransitionsDetection/calculateDistance/caffe/util/io.hpp
+/home/hermit/CodeOnGoogleGPU/shotTransitions/calculateDistance/caffe/util/io.hpp
 

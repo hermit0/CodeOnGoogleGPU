@@ -8,6 +8,7 @@
 #include <string>
 #include <memory>
 #include <cmath>
+#include <limits>
 #include "caffe/util/math_functions.hpp"
 
 using std::string;
@@ -48,9 +49,10 @@ template <typename T>
 T CosineDistance<T>::calculate(const T *a, const T *b, int n)
 {
     T dot_product = caffe::caffe_cpu_dot(n,a,b);
+    T epsilon = std::numeric_limits<T>::epsilon();//避免除0
     return 1 - dot_product / 
             (std::sqrt(caffe::caffe_cpu_dot(n,a,a)) *
-            std::sqrt(caffe::caffe_cpu_dot(n,b,b)));
+            std::sqrt(caffe::caffe_cpu_dot(n,b,b)) + epsilon);
 }
 
 template <typename T>
