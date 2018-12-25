@@ -1,0 +1,11 @@
+syntax = "proto2";
+package distance_output;
+message video_sequence
+{
+    repeated frame per_frame = 1;
+}
+message frame
+{
+   required int32 frame_no = 1;
+   required float value = 2;
+}
