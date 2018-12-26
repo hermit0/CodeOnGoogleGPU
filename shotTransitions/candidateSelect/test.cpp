@@ -48,6 +48,11 @@ int main(int argc, char **argv)
 		output_dir.push_back('/');
 	std::sort(all_rates.begin(), all_rates.end());	//确保采样率是递增的
 	//设置过滤算法的超参数
+    double lamda = 3, gamma = 0.8;
+    std::cout << "Enter the hyperParameter lamda: ";
+    std::cin >> lamda;
+    std::cout << "Enter the hyperParameter gamma: ";
+    std::cout >> gamma;
 	double static_threshold = 0.2, sigma = 0.05;
 	double a = 0.7;
 	if (filter_type == 0 || filter_type == 1 || filter_type == 2)
@@ -73,8 +78,11 @@ int main(int argc, char **argv)
 				std::shared_ptr<DSM_Filter> filter = getDSM_Filter(filter_type,dir_name + video_name, all_rates, file_type);
 				filter->set_static_threshold(static_threshold);
 				filter->set_sigma(sigma);
+                filter->set_lamda(lamda);
+                filter->set_gamma(gamma);
 				std::cout << "Using Filter " << filter->type() << std::endl;
 				std::cout << "static_threshold: " << filter->get_static_threshold() << " sigma: " << filter->get_sigma() << std::endl;
+                std::cout << "lamda: " << filter->get_lamda() << " gamma: " << filter->get_gamma();
 				std::cout << "Window size: " << filter->get_window_size() << std::endl;
 				filter->filter();
 				filter->save_result(output_dir + video_name + "_candidates");
@@ -83,7 +91,10 @@ int main(int argc, char **argv)
 			{
 				MyFilter filter(dir_name + video_name, all_rates, file_type);
 				filter.set_a(a);
+                filter.set_lamda(lamda);
+                filter.set_gamma(gamma);
 				std::cout << "Using Filter " << filter.type() << std::endl;
+                std::cout << "lamda: " << filter.get_lamda() << " gamma: " << filter.get_gamma();
 				std::cout << "hyperParameter a: " << filter.get_a() << std::endl;
 				std::cout << "Window size: " << filter.get_window_size() << std::endl;
 				filter.filter();

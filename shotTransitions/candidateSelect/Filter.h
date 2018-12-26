@@ -27,6 +27,10 @@ public:
 	int get_window_size() { return window_size; }
 	void set_min_space(int a) { min_space = a; }
 	int get_min_space() { return min_space; }
+    void set_lamda(double val){lamda=val;}
+    double get_lamda(){return lamda;}
+    void set_gamma(double val){gamma = val;}
+    double get_gamma(){return gamma;}
 	void filter();	//执行过滤算法
 	void save_result(const string &path);//输出结果
 	virtual string type() = 0;
@@ -40,7 +44,7 @@ private:
 protected:
 	int window_size;	//窗口的一半大小
 	int min_space;	//不同采样率候选帧之间的最小间隔
-	
+	double lamda,gamma; //邻居比较时的超参数
 	vector<vector<pair<int, double>>> distances_at_all_rates;
 	vector<int> all_candidates;
 };

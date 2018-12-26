@@ -4,7 +4,7 @@
 #include <cmath>
 
 Filter::Filter(const string & distance_file_prefix, const vector<int>& all_rates,int file_type)
-	:window_size(16), min_space(5)
+	:window_size(16), min_space(5),lamda(3),gamma(0.8)
 {
 	for (size_t i = 0; i < all_rates.size(); ++i)
 	{
@@ -23,7 +23,7 @@ Filter::Filter(const string & distance_file_prefix, const vector<int>& all_rates
 }
 
 Filter::Filter(const vector<vector<pair<int, double>>>& all_distances_at_rates)
-	: window_size(16),min_space(5), distances_at_all_rates(all_distances_at_rates)
+	: window_size(16),min_space(5),lamda(3),gamma(0.8),distances_at_all_rates(all_distances_at_rates)
 {
 }
 
@@ -187,9 +187,9 @@ vector<int> DSM_Filter::filter_core(const vector<pair<int, double>>& distances)
 		else
 		{
 			//如果该帧的距离值比neighbor的大的多
-			if (((i > 0 && distances[i].second > 2 * distances[i - 1].second)
-				|| (i + 1< distances.size() && distances[i].second > 2 * distances[i + 1].second))
-				&& distances[i].second > 0.8*global_mean)
+			if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
+				|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
+				&& distances[i].second > gamma*global_mean)
 				candidates.push_back(distances[i].first);
 		}
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
@@ -237,9 +237,9 @@ vector<int> DSM_Filter_edit1::filter_core(const vector<pair<int, double>>& dista
 		else
 		{
 			//如果该帧的距离值比neighbor的大的多
-			if (((i > 0 && distances[i].second > 2 * distances[i - 1].second)
-				|| (i + 1< distances.size() && distances[i].second > 2 * distances[i + 1].second))
-				&& distances[i].second > 0.8*global_mean)
+			if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
+				|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
+				&& distances[i].second > gamma*global_mean)
 				candidates.push_back(distances[i].first);
 		}
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
@@ -287,9 +287,9 @@ vector<int> DSM_Filter_edit2::filter_core(const vector<pair<int, double>>& dista
 		else
 		{
 			//如果该帧的距离值比neighbor的大的多
-			if (((i > 0 && distances[i].second > 2 * distances[i - 1].second)
-				|| (i + 1< distances.size() && distances[i].second > 2 * distances[i + 1].second))
-				&& distances[i].second > 0.8*global_mean)
+			if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
+				|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
+				&& distances[i].second > gamma*global_mean)
 				candidates.push_back(distances[i].first);
 		}
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
@@ -331,16 +331,15 @@ vector<int> MyFilter::filter_core(const vector<pair<int, double>>& distances)
 		local_d = std::sqrt(local_d / (window_end - window_begin - 1));
 
 		double threshold = local_mean + a * local_d *(1 + std::log(global_mean / (local_mean + std::numeric_limits<double>::epsilon())));
-		if (distances[i].second > threshold)
+        //如果该帧的距离值比neighbor的大的多
+		if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
+			|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
+			&& distances[i].second > gamma*global_mean)
 			candidates.push_back(distances[i].first);
-		else
-		{
-			//如果该帧的距离值比neighbor的大的多
-			if (((i > 0 && distances[i].second > 3 * distances[i - 1].second)
-				|| (i + 1< distances.size() && distances[i].second > 3 * distances[i + 1].second))
-				&& distances[i].second > 0.8*global_mean)
-				candidates.push_back(distances[i].first);
-		}
+        else{
+            if (distances[i].second > threshold)
+                candidates.push_back(distances[i].first);
+        }
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
 		{
 			local_sum -= distances[window_begin].second;
