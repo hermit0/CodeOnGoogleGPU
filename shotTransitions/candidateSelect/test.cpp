@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	if (video_list.is_open())
 	{
 		string video_name;
-		while (std::getline(video_list, video_name))
+		while (video_list >> video_name)
 		{
 			if (filter_type < 3)
 			{
