@@ -336,10 +336,10 @@ vector<int> MyFilter::filter_core(const vector<pair<int, double>>& distances)
 			|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
 			&& distances[i].second > gamma*global_mean)
 			candidates.push_back(distances[i].first);
-        else{
+        /*else{
             if (distances[i].second > threshold)
                 candidates.push_back(distances[i].first);
-        }
+        }*/
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
 		{
 			local_sum -= distances[window_begin].second;
