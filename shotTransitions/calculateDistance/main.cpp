@@ -17,6 +17,7 @@
 #include "caffe/net.hpp"
 #include "CalculateDistance.hpp"
 #include "caffe/util/io.hpp"
+#include "distance_output.pb.h"
 
 using std::string;
 using std::vector;
@@ -319,11 +320,22 @@ int processVideo(const string &video_file, const string &pretrained_binary_proto
                 LOG(ERROR) << "cannot create the file " << file_name;
                 return 1;
             }
+            ////输出文本格式
+            //for(size_t j = 0; j < all_distances[feature_index][rate_index].size();++j)
+            //{
+            //    of << std::setw(10) << std::setfill('0') << all_distances[feature_index][rate_index][j].first << " "
+            //        << all_distances[feature_index][rate_index][j].second << std::endl;
+            //}
+            //输出二进制格式
+            distance_output::video_sequence output;
             for(size_t j = 0; j < all_distances[feature_index][rate_index].size();++j)
             {
-                of << std::setw(10) << std::setfill('0') << all_distances[feature_index][rate_index][j].first << " " 
-                    << all_distances[feature_index][rate_index][j].second << std::endl;
+                output.add_per_frame();
+                distance_output::frame *one_frame = output.mutable_per_frame(j);
+                one_frame->set_frame_no(all_distances[feature_index][rate_index][j].first);
+                one_frame->set_value(all_distances[feature_index][rate_index][j].second);
             }
+            output.SerializeToOstream(&of);
             of.close();
         }
     }
@@ -439,6 +451,8 @@ vector<int> merge_candidates(vector<vector<int>> &candidates_at_all_sampleRates)
     {
         auto it = temp.begin();
         auto prev_it = temp.end();
+        auto head = temp.begin();//指向低采样率时得到的候选段的头部
+        auto back = temp.end(); //指向低采样率时得到的候选段的尾部
         for(size_t j = 0; j < candidates_at_all_sampleRates[i].size();++j)
         {
             while(it != temp.end() && *it < candidates_at_all_sampleRates[i][j])
@@ -450,7 +464,7 @@ vector<int> merge_candidates(vector<vector<int>> &candidates_at_all_sampleRates)
             //如果不同采样率的candidates相隔太近，则只保留低采样率的candidates
             if(it == temp.begin())
             {
-                if(*it >= candidates_at_all_sampleRates[i][j] + min_space)
+                if(it == back ||*it >= candidates_at_all_sampleRates[i][j] + min_space)
                     temp.insert(it, candidates_at_all_sampleRates[i][j]);
             }else if(it == temp.end())
             {

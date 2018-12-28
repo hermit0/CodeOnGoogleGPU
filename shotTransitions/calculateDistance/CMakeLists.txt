@@ -4,7 +4,7 @@ project(calculateDistance)
 set(CMAKE_CXX_STANDARD 11)
 include_directories(/home/hermit/C3D-v1.1-openblas/include/)
 add_definitions(-Wall -DCPU_ONLY)
-add_executable(calculateDistance main.cpp)
+add_executable(calculateDistance main.cpp distance_output.pb.cc)
 target_link_libraries(calculateDistance glog
         /usr/local/lib/libopencv_core.so
         /usr/local/lib/libopencv_videoio.so
