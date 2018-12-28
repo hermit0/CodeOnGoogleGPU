@@ -184,14 +184,14 @@ vector<int> DSM_Filter::filter_core(const vector<pair<int, double>>& distances)
 		double threshold = static_threshold + sigma * local_mean;
 		if (distances[i].second > threshold)
 			candidates.push_back(distances[i].first);
-		else
+		/*else
 		{
 			//如果该帧的距离值比neighbor的大的多
 			if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
 				|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
 				&& distances[i].second > gamma*global_mean)
 				candidates.push_back(distances[i].first);
-		}
+		}*/
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
 		{
 			local_sum -= distances[window_begin].second;
@@ -234,14 +234,14 @@ vector<int> DSM_Filter_edit1::filter_core(const vector<pair<int, double>>& dista
 		double threshold = static_threshold + sigma * (local_mean + local_d *global_mean /( local_mean + std::numeric_limits<double>::epsilon()));
 		if (distances[i].second > threshold)
 			candidates.push_back(distances[i].first);
-		else
+		/*else
 		{
 			//如果该帧的距离值比neighbor的大的多
 			if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
 				|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
 				&& distances[i].second > gamma*global_mean)
 				candidates.push_back(distances[i].first);
-		}
+		}*/
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
 		{
 			local_sum -= distances[window_begin].second;
@@ -284,14 +284,14 @@ vector<int> DSM_Filter_edit2::filter_core(const vector<pair<int, double>>& dista
 		double threshold = static_threshold + sigma * (local_mean + local_d *( 1+ std::log(global_mean / (local_mean + std::numeric_limits<double>::epsilon()))));
 		if (distances[i].second > threshold)
 			candidates.push_back(distances[i].first);
-		else
+		/*else
 		{
 			//如果该帧的距离值比neighbor的大的多
 			if (((i > 0 && distances[i].second > lamda * distances[i - 1].second)
 				|| (i + 1< distances.size() && distances[i].second > lamda * distances[i + 1].second))
 				&& distances[i].second > gamma*global_mean)
 				candidates.push_back(distances[i].first);
-		}
+		}*/
 		while (window_begin >= 0 && window_begin <= i - window_size + 1)
 		{
 			local_sum -= distances[window_begin].second;

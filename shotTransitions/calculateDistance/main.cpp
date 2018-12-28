@@ -320,25 +320,26 @@ int processVideo(const string &video_file, const string &pretrained_binary_proto
                 LOG(ERROR) << "cannot create the file " << file_name;
                 return 1;
             }
-            ////输出文本格式
-            //for(size_t j = 0; j < all_distances[feature_index][rate_index].size();++j)
-            //{
-            //    of << std::setw(10) << std::setfill('0') << all_distances[feature_index][rate_index][j].first << " "
-            //        << all_distances[feature_index][rate_index][j].second << std::endl;
-            //}
-            //输出二进制格式
-            distance_output::video_sequence output;
+            //输出文本格式
             for(size_t j = 0; j < all_distances[feature_index][rate_index].size();++j)
             {
-                output.add_per_frame();
-                distance_output::frame *one_frame = output.mutable_per_frame(j);
-                one_frame->set_frame_no(all_distances[feature_index][rate_index][j].first);
-                one_frame->set_value(all_distances[feature_index][rate_index][j].second);
+                of << std::setw(10) << std::setfill('0') << all_distances[feature_index][rate_index][j].first << " "
+                    << all_distances[feature_index][rate_index][j].second << std::endl;
             }
-            output.SerializeToOstream(&of);
+            ////输出二进制格式
+            //distance_output::video_sequence output;
+            //for(size_t j = 0; j < all_distances[feature_index][rate_index].size();++j)
+            //{
+            //    output.add_per_frame();
+            //    distance_output::frame *one_frame = output.mutable_per_frame(j);
+            //    one_frame->set_frame_no(all_distances[feature_index][rate_index][j].first);
+            //    one_frame->set_value(all_distances[feature_index][rate_index][j].second);
+            //}
+            //output.SerializeToOstream(&of);
             of.close();
         }
     }
+    /*
     for(size_t feature_index = 0; feature_index < num_features;++feature_index)
     {
         vector<vector<int>> initial_candidates;
@@ -372,7 +373,7 @@ int processVideo(const string &video_file, const string &pretrained_binary_proto
         for(auto item:all)
             output << item << std::endl;
             
-    }
+    }*/
     return 0;
 }
 
