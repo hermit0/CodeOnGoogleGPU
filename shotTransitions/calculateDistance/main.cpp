@@ -462,11 +462,11 @@ vector<int> merge_candidates(vector<vector<int>> &candidates_at_all_sampleRates)
             }
            
             //如果不同采样率的candidates相隔太近，则只保留低采样率的candidates
-            if(it == temp.begin())
+            if(it == head)
             {
                 if(it == back ||*it >= candidates_at_all_sampleRates[i][j] + min_space)
                     temp.insert(it, candidates_at_all_sampleRates[i][j]);
-            }else if(it == temp.end())
+            }else if(it == back)
             {
                 if(candidates_at_all_sampleRates[i][j] >= *prev_it + min_space)
                     temp.insert(it, candidates_at_all_sampleRates[i][j]);
