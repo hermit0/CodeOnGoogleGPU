@@ -392,7 +392,7 @@ vector<int> DSM_Filter_edit3::filter_core(const vector<pair<int, double>>& dista
 		//double local_d = local_square_sum - 2 * local_mean * local_sum + (window_end - window_begin)*local_mean*local_mean;
 		//local_d = std::sqrt(local_d / (window_end - window_begin - 1));
 		
-		double threshold = static_threshold + sigma * local_mean*( 1+ std::log(global_mean /(local_mean + epsilon)));
+		double threshold = static_threshold + sigma * local_mean*( 1+ std::log(global_mean /(local_mean + std::numeric_limits<double>::epsilon())));
 		if (distances[i].second > threshold)
 			candidates.push_back(distances[i].first);
 		/*else
