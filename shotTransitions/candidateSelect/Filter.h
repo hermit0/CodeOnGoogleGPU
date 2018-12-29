@@ -83,6 +83,16 @@ public:
 protected:
 	virtual vector<int> filter_core(const vector<pair<int, double>> &distances);	//过滤单个序列
 };
+class DSM_Filter_edit3 :public DSM_Filter {
+public:
+	DSM_Filter_edit3(const string &distance_file_prefix, const vector<int> &all_rates, int file_type = 0)
+		:DSM_Filter(distance_file_prefix, all_rates, file_type) {}
+	DSM_Filter_edit3(const vector<vector<pair<int, double>>> &all_distances_at_rates)
+		:DSM_Filter(all_distances_at_rates) {}
+	string type() { return "DSM_Filter_edit3"; }
+protected:
+	virtual vector<int> filter_core(const vector<pair<int, double>> &distances);	//过滤单个序列
+};
 
 class MyFilter : public Filter {
 public:

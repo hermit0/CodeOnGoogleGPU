@@ -13,8 +13,8 @@ int main(int argc, char **argv)
 			<< "usage: test dir_name video_list all_rates filter_type file_type output_dir\n"
 			<< "dir_name:包含不同采样率上的距离文件的目录路径\n"
 			<< "video_list:包含所有要处理的视频名称的文件\n"
-			<< "all_rates:用逗号隔开的采样率序列"
-			<< "filter_type: 0:DSM 1:DSM-edit1 2:DSM-edit2 3:Myfilter\n"
+			<< "all_rates:用逗号隔开的采样率序列\n"
+			<< "filter_type: 0:DSM 1:DSM-edit1 2:DSM-edit2 3:Myfilter 4:DSM-edit3\n"
 			<<"file_type: 距离文件的类型 0-文本文件 1-二进制文件\n"
 			<< "output_dir: 输出的候选帧结果文件的保存路径" <<std::endl;
 		exit(1);
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     	std::cin  >> gamma;
 	double static_threshold = 0.2, sigma = 0.05;
 	double a = 0.7;
-	if (filter_type == 0 || filter_type == 1 || filter_type == 2)
+	if (filter_type == 0 || filter_type == 1 || filter_type == 2 ||filter_type == 4)
 	{
 		std::cout << "Enter the static threshold: ";
 		std::cin >> static_threshold;
