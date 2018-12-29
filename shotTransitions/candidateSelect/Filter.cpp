@@ -363,7 +363,7 @@ std::shared_ptr<DSM_Filter> getDSM_Filter(int filter_type, const string & distan
 		return nullptr;
 }
 //T = static_threshold + sigma * local_mean*( 1+ ln(global_mean /(local_mean + epsilon)))
-vector<int> DSM_Filter_edit1::filter_core(const vector<pair<int, double>>& distances)
+vector<int> DSM_Filter_edit3::filter_core(const vector<pair<int, double>>& distances)
 {
 	int window_begin = 0;
 	int window_end = 0;	//指向滑动窗口外的下一个数据
