@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 		string video_name;
 		while (video_list >> video_name)
 		{
-			if (filter_type < 3)
+			if (filter_type < 3 || filter_type == 4)
 			{
 				std::shared_ptr<DSM_Filter> filter = getDSM_Filter(filter_type,dir_name + video_name, all_rates, file_type);
 				filter->set_static_threshold(static_threshold);
