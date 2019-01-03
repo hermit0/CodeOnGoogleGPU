@@ -124,7 +124,7 @@ def processVideo(video_file,layer_name,all_rates,output_dir,model):
         #pdb.set_trace()
         with open(file_path,'w') as fd:
             for frame_no,value in all_distances[rate_index]:
-                fd.write("%10d,%f\n" %(frame_no,value))
+                fd.write("%010d %f\n" %(frame_no,value))
 if __name__ == '__main__':
     videos_list_file = input("Please enter the video_list that contains the videos to be processed: ")
     layer_name = input("Enter the layer name: ")
