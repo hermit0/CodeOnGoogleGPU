@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/cal_mean.dir/main.cpp.o  -o cal_mean -Wl,-rpath,/usr/local/lib -lopencv_videoio /lib/x86_64-linux-gnu/libpthread.so.0 /usr/local/lib/libopencv_core.so 
