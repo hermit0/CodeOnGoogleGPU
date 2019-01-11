@@ -19,30 +19,32 @@ public:
     void reset();
     void update(int val);
     double get_mean(){return m / count;}
-    double get_std();
+    //double get_std();
 };
 
 void MeanStdMeter::reset()
 {
     std::lock_guard<std::mutex> lock(mutex_lock);
     m = 0;
-    v = 0;
+    //v = 0;
     count = 0;
 }
 void MeanStdMeter::update(int val)
 {
     std::lock_guard<std::mutex> lock(mutex_lock);
     ++count;
+    /*
     if(count == 1)
         v = 0.0;
 
     else
     {
         v += (m - (count - 1)* val) *(m - (count - 1) * val) /(count * (count - 1));
-    }
+    }*/
     m += val;
 }
 
+/*
 double MeanStdMeter::get_std()
 {
     if(count == 1)
@@ -53,7 +55,7 @@ double MeanStdMeter::get_std()
         return std::sqrt(v /(count -1));
     }
 
-}
+}*/
 
 std::mutex g_fd_mutex;  //protects global fd
 MeanStdMeter r_avg,g_avg,b_avg;
@@ -134,6 +136,6 @@ int main(int argc, char** argv)
     }
     std::cout << "Finished" << std::endl;
     std::cout << "The mean values of pixels: R: " << r_avg.get_mean() << " G: " << g_avg.get_mean() << " B: " << b_avg.get_mean() <<std::endl;
-    std::cout << "The standard deviation of pixels: R: " << r_avg.get_std() << " G: " << g_avg.get_std() << " B: " << b_avg.get_std() <<std::endl;
+    //std::cout << "The standard deviation of pixels: R: " << r_avg.get_std() << " G: " << g_avg.get_std() << " B: " << b_avg.get_std() <<std::endl;
     return 0;
 }
