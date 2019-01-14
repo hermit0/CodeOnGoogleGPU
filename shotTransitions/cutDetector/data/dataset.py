@@ -44,7 +44,10 @@ def make_dataset(root_path, sample_list_path, sample_duration):
             words = line.strip().split(' ')
             video_name = words[0]
             frame_no = int(words[1])
-            label = int(words[2])
+            if len(words) == 2: #测试集
+                label = -1
+            else:
+                label = int(words[2])
             sample={'video_path':os.path.join(root_path,video_name),
                     'frame_no':frame_no,
                     'label':label,
@@ -111,7 +114,7 @@ class DataSet(data.Dataset):
             self.spatial_transform.randomize_parameters()
             clip = [self.spatial_transform(img) for img in clip]
         clip = torch.stack(clip, 0).permute(1, 0, 2, 3)
-        target = self.data[index]['label']
+        target = self.data[index]
         if self.target_transform is not None:
             target = self.target_transform(target)
         return clip,target
