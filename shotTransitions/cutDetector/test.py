@@ -5,6 +5,7 @@ import time
 import os
 import json
 
+from utils import AverageMeter
 
 def test(data_loader, model, opt):
     print('test')
@@ -22,17 +23,18 @@ def test(data_loader, model, opt):
     for i, (inputs, targets) in enumerate(data_loader):
         data_time.update(time.time() - end_time)
 
-        inputs = Variable(inputs, volatile=True)
-        outputs = model(inputs)
-        outputs = F.softmax(outputs)
-        _, pred = outputs.topk(1, 1, True)    
-
+        with torch.no_grad():
+            inputs = Variable(inputs)
+            outputs = model(inputs)
+            outputs = F.softmax(outputs,dim=1)
+            _, pred = outputs.topk(1, 1, True)    
+            pred = torch.squeeze(pred)
         for j in range(outputs.size(0)):
-            video_name = os.path.basename(targets[j]['video_path'])
-            frame_no = targets[j]['frame_no']
-            annotation = targets[j]['label']
+            video_name = os.path.basename(targets['video_path'][j])
+            frame_no = targets['frame_no'][j].item()
+            annotation = targets['label'][j]
             if annotation != -1:
-                if annotation == pred[j].data:
+                if annotation == pred[j].item():
                     accuracies.update(1,1)
                 else:
                     accuracies.update(0,1)
@@ -40,7 +42,7 @@ def test(data_loader, model, opt):
                 if len(output_buffer) > 0:
                     test_results[previous_video_name] = output_buffer
                     output_buffer = []
-            output_buffer.append((frame_no,pred[j].data.cpu()))
+            output_buffer.append((frame_no,pred[j].item()))
             previous_video_name = video_name
             
         if (i % 100) == 0:

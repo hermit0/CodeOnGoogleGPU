@@ -4,6 +4,7 @@ import torch.utils.data as data
 from PIL import Image
 import os
 import cv2
+#import pdb
 
 '''
 获得视频片段
@@ -12,14 +13,14 @@ def video_loader(video_path, center_frame_indices,sample_duration):
     video = []
     video_cap=cv2.VideoCapture(video_path)
     half_duration = sample_duration / 2 + sample_duration % 2
-    frame_begin = center_frame_indices - half_duration + 1
+    frame_begin = int(center_frame_indices - half_duration + 1)
     repeat_head = 0
     frame_index = frame_begin
     if frame_begin < 0:
         repeat_head = abs(frame_begin)
         frame_index = 0
     video_cap.set(cv2.CAP_PROP_POS_FRAMES,frame_index)
-    for i in range(sample_duration):
+    for i in range(sample_duration - repeat_head):
         status,frame=video_cap.read()
         if status:
             frame=Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)).convert('RGB')
@@ -31,7 +32,6 @@ def video_loader(video_path, center_frame_indices,sample_duration):
             break
     if len(video) < sample_duration:
         video +=[video[-1] for _ in range(sample_duration - len(video))]
-        clip+=[clip[-1] for _ in range(sample_duration - len(clip))]
     return video
 
 def get_default_video_loader():
@@ -88,8 +88,8 @@ class DataSet(data.Dataset):
         for sample in self.data:
             label = sample['label']
             if label not in labels_cnt:
-                label_cnt[label] = 0
-            label_cnt[label] +=1
+                labels_cnt[label] = 0
+            labels_cnt[label] +=1
         weights = []
         for sample in self.data:
             label = sample['label']
@@ -115,7 +115,9 @@ class DataSet(data.Dataset):
             clip = [self.spatial_transform(img) for img in clip]
         clip = torch.stack(clip, 0).permute(1, 0, 2, 3)
         target = self.data[index]
+        #pdb.set_trace()
         if self.target_transform is not None:
+            #pdb.set_trace()
             target = self.target_transform(target)
         return clip,target
     

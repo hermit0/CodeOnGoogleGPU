@@ -2,7 +2,7 @@
 import torch
 from torch import nn
 
-from models import x-channel-resnet,resnet,resnext
+from models import x_channel_resnet,resnet,resnext
 
 def generate_model(opt):
     assert opt.model in [
@@ -13,27 +13,27 @@ def generate_model(opt):
         assert opt.model_depth in [10, 18, 34, 50, 101, 152]
         
         if opt.model_depth == 10:
-            model = x-channel-resnet.xcresnet10(
+            model = x_channel_resnet.xcresnet10(
                 num_classes=opt.n_classes,
                 image_nums=opt.sample_duration)
         elif opt.model_depth == 18:
-            model = x-channel-resnet.xcresnet18(
+            model = x_channel_resnet.xcresnet18(
                 num_classes=opt.n_classes,
                 image_nums=opt.sample_duration)
         elif opt.model_depth == 34:
-            model = x-channel-resnet.xcresnet34(
+            model = x_channel_resnet.xcresnet34(
                 num_classes=opt.n_classes,
                 image_nums=opt.sample_duration)
         elif opt.model_depth == 50:
-            model = x-channel-resnet.xcresnet50(
+            model = x_channel_resnet.xcresnet50(
                 num_classes=opt.n_classes,
                 image_nums=opt.sample_duration)
         elif opt.model_depth == 101:
-            model = x-channel-resnet.xcresnet101(
+            model = x_channel_resnet.xcresnet101(
                 num_classes=opt.n_classes,
                 image_nums=opt.sample_duration)
         elif opt.model_depth == 152:
-            model = x-channel-resnet.xcresnet152(
+            model = x_channel_resnet.xcresnet152(
                 num_classes=opt.n_classes,
                 image_nums=opt.sample_duration)
     elif opt.model == 'resnet':

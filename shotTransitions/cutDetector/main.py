@@ -5,13 +5,16 @@
 import os
 import json
 import torch
+from torch import nn
+from torch import optim
+from torch.optim import lr_scheduler
 from opts import parse_opts
 from model import generate_model
-from spatial_transform import (Compose,
+from spatial_transforms import (Compose,
     ToTensor,Normalize,Scale,CenterCrop,RandomHorizontalFlip,MultiScaleCornerCrop)
-from data.dataset.py import DataSet
+from data.dataset import DataSet
 from utils import Logger
-from target_transform import ClassLabel
+from target_transforms import ClassLabel
 from train import train_epoch
 from validation import val_epoch
 import test
@@ -43,7 +46,7 @@ if __name__ == '__main__':
             opt.val_list_path = os.path.join(opt.root_dir,opt.val_list_path)
         if opt.test_list_path:
             opt.test_list_path = os.path.join(opt.root_dir,opt.test_list_path)
-        opt.result_path = os.path.join(os.root_dir,os.result_path)
+        opt.result_path = os.path.join(opt.root_dir,opt.result_path)
         if opt.resume_path:
             opt.resume_path = os.path.join(opt.root_dir, opt.resume_path)
         if opt.pretrain_path:
@@ -55,6 +58,8 @@ if __name__ == '__main__':
         opt.scales.append(opt.scales[-1] * opt.scale_step)
     opt.arch = '{}-{}'.format(opt.model, opt.model_depth)#模型结构
     opt.mean = get_mean(opt.norm_value)
+    if opt.auto_resume and opt.resume_path== '':
+        get_lastest_model(opt)
     print(opt)
     with open(os.path.join(opt.result_path, 'opts.json'), 'w') as opt_file:
         json.dump(vars(opt), opt_file)
@@ -69,14 +74,14 @@ if __name__ == '__main__':
     norm_method = Normalize(opt.mean, [1, 1, 1])
     
     if not opt.no_train:
-        crop_method = MultiScaleRandomCrop(opt.scales, opt.sample_size)
+        crop_method = MultiScaleCornerCrop(opt.scales, opt.sample_size)
         spatial_transform = Compose([
             crop_method,
             RandomHorizontalFlip(),
             ToTensor(opt.norm_value), norm_method
         ])
         temporal_transform = None
-        target_transform = ClassLabel
+        target_transform = ClassLabel()
         training_data = DataSet(opt.train_subdir,opt.train_list_path,
                                 spatial_transform=spatial_transform,
                                 temporal_transform=temporal_transform,
@@ -113,7 +118,7 @@ if __name__ == '__main__':
             ToTensor(opt.norm_value), norm_method
         ])
         temporal_transform = None
-        target_transform = ClassLabel
+        target_transform = ClassLabel()
         validation_data = DataSet(opt.train_subdir,opt.val_list_path,
                                   spatial_transform=spatial_transform,
                                   temporal_transform=temporal_transform,
@@ -126,8 +131,6 @@ if __name__ == '__main__':
             pin_memory=True)
         val_logger = Logger(
             os.path.join(opt.result_path, 'val.log'), ['epoch', 'loss', 'acc'])
-    if opt.auto_resume and opt.resume_path== '':
-        opt.resume_path = get_lastest_model(opt)
     if opt.resume_path:
         print('loading checkpoint {}'.format(opt.resume_path))
         checkpoint = torch.load(opt.resume_path)

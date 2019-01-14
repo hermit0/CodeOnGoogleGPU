@@ -1,19 +1,19 @@
-log_dir = results
+log_dir=results
 
 #根据训练好的模型文件来在测试集上进行测试
-python main.py \
+python -u main.py \
 --no_train \
 --no_val \
 --test \
---root_dir ~/data \
+--root_dir ~/CodeOnGoogleGPU/shotTransitions/cutDetector/data \
 --test_list_path test_samples \
 --result_path $log_dir \
 --n_classes 2 \
---sample_size 224 \
+--sample_size 128 \
 --sample_duration 6 \
 --batch_size 128 \
---resume_path *.pth \
+--resume_path results/model_epoch14.pth \
 --test_subdir test \
 --model xcresnet \
 --model_depth 50 \
---n_threads 4 |tee  $log_dir/screen.log
+--n_threads 4 |tee  data/$log_dir/screen.log
