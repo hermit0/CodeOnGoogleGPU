@@ -11,6 +11,7 @@ def generate_model(opt):
     
     if opt.model == 'xcresnet':
         assert opt.model_depth in [10, 18, 34, 50, 101, 152]
+        from models.x_channel_resnet import get_fine_tuning_parameters
         
         if opt.model_depth == 10:
             model = x_channel_resnet.xcresnet10(
@@ -121,9 +122,9 @@ def generate_model(opt):
             
             model.load_state_dict(pretrain['state_dict'])
             
-            model.module.fc = nn.Linear(model.module.fc.in_features,
-                                            opt.n_finetune_classes)
-            model.module.fc = model.module.fc.cuda()
+            #modele.fc = nn.Linear(model.fc.in_features,
+            #                                opt.n_finetune_classes)
+            #model.fc = model.fc.cuda()
             
             parameters = get_fine_tuning_parameters(model, opt.ft_begin_index)
             return model,parameters
@@ -135,7 +136,7 @@ def generate_model(opt):
             
             model.load_state_dict(pretrain['state_dict'])
             
-            model.module.fc = nn.Linear(model.module.fc.in_features,
+            modele.fc = nn.Linear(model.module.fc.in_features,
                                             opt.n_finetune_classes)
             
             parameters = get_fine_tuning_parameters(model, opt.ft_begin_index)
