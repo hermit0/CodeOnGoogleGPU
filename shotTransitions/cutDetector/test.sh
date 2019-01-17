@@ -16,4 +16,4 @@ python -u main.py \
 --test_subdir test \
 --model xcresnet \
 --model_depth 50 \
---n_threads 4 |tee  data/$log_dir/screen.log
+--n_threads 6 |tee  data/$log_dir/screen.log &

@@ -1,7 +1,7 @@
 log_dir=results
 
 #从头开始训练模型或者从最近的检查点恢复训练，提供验证集进行验证
-python -u  main.py \
+nohup python -u  main.py \
 --root_dir ~/CodeOnGoogleGPU/shotTransitions/cutDetector/data \
 --train_list_path train_samples \
 --val_list_path val_samples \
@@ -15,6 +15,6 @@ python -u  main.py \
 --train_subdir train \
 --model xcresnet \
 --model_depth 50 \
---n_threads 8 \
+--n_threads 16 \
 --learning_rate 0.01 \
---checkpoint 1 |tee  data/$log_dir/screen.log
+--checkpoint 1 2>error.log |tee  data/$log_dir/screen.log & 
