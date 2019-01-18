@@ -1,7 +1,7 @@
 log_dir=results
 
 #根据训练好的模型文件来在测试集上进行测试
-python -u main.py \
+nohup python -u main.py \
 --no_train \
 --no_val \
 --test \
@@ -12,8 +12,8 @@ python -u main.py \
 --sample_size 128 \
 --sample_duration 6 \
 --batch_size 128 \
---resume_path results/model_epoch14.pth \
+--resume_path results/model_epoch15.pth \
 --test_subdir test \
 --model xcresnet \
 --model_depth 50 \
---n_threads 6 |tee  data/$log_dir/screen.log &
+--n_threads 12 |tee  data/$log_dir/screen.log 
