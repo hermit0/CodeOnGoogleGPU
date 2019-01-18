@@ -109,8 +109,9 @@ if __name__ == '__main__':
             dampening=dampening,
             weight_decay=opt.weight_decay,
             nesterov=opt.nesterov)
-        scheduler = lr_scheduler.ReduceLROnPlateau(
+        val_scheduler = lr_scheduler.ReduceLROnPlateau(
             optimizer, 'min', patience=opt.lr_patience)
+        step_scheduler = lr_scheduler.StepLR(optimizer,opt.lr_step,gamma=0.1)
     if not opt.no_val:
         spatial_transform = Compose([
             Scale(opt.sample_size),
@@ -140,17 +141,20 @@ if __name__ == '__main__':
         model.load_state_dict(checkpoint['state_dict'])
         if not opt.no_train:
             optimizer.load_state_dict(checkpoint['optimizer'])
+            step_scheduler.load_state_dict(checkpoint['step_scheduler'])
+            val_scheduler.load_state_dict(checkpoint['val_scheduler'])
     print('run')
     for i in range(opt.begin_epoch, opt.n_epochs + 1):
         if not opt.no_train:
+            step_scheduler.step()
             train_epoch(i, train_loader, model, criterion, optimizer, opt,
-                        train_logger, train_batch_logger)
+                        train_logger, train_batch_logger,step_scheduler,val_scheduler)
         if not opt.no_val:
             validation_loss = val_epoch(i, val_loader, model, criterion, opt,
                                         val_logger)
 
         if not opt.no_train and not opt.no_val:
-            scheduler.step(validation_loss)
+            val_scheduler.step(validation_loss)
     if opt.test:
         spatial_transform = Compose([
             Scale(opt.sample_size),

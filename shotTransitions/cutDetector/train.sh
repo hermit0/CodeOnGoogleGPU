@@ -15,6 +15,6 @@ nohup python -u  main.py \
 --train_subdir train \
 --model xcresnet \
 --model_depth 50 \
---n_threads 16 \
+--n_threads 12 \
 --learning_rate 0.01 \
 --checkpoint 1 2>error.log |tee  data/$log_dir/screen.log & 

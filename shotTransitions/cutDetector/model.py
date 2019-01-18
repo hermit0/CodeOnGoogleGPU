@@ -122,9 +122,9 @@ def generate_model(opt):
             
             model.load_state_dict(pretrain['state_dict'])
             
-            #modele.fc = nn.Linear(model.fc.in_features,
-            #                                opt.n_finetune_classes)
-            #model.fc = model.fc.cuda()
+            modele.fc = nn.Linear(model.fc.in_features,
+                                            opt.n_finetune_classes)
+            model.fc = model.fc.cuda()
             
             parameters = get_fine_tuning_parameters(model, opt.ft_begin_index)
             return model,parameters
