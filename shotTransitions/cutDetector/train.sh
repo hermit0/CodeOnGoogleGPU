@@ -10,7 +10,7 @@ nohup python -u  main.py \
 --sample_size 128 \
 --sample_duration 6 \
 --batch_size 128 \
---n_epochs 200 \
+--n_epochs 100 \
 --auto_resume \
 --train_subdir train \
 --model xcresnet \
