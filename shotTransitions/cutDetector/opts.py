@@ -104,7 +104,7 @@ def parse_opts():
         '--auto_resume',
         action='store_true',
         help='auto resume from the latest checkpoint')
-    parser.set_defaults(auto_resume=True)
+    parser.set_defaults(auto_resume=False)
     parser.add_argument(
         '--pretrain_path', default='', type=str, help='Pretrained model (.pth)')
     parser.add_argument(
