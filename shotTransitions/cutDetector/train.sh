@@ -8,13 +8,15 @@ nohup python -u  main.py \
 --result_path $log_dir \
 --n_classes 2 \
 --sample_size 128 \
---sample_duration 6 \
---batch_size 128 \
+--sample_duration 16 \
+--batch_size 32 \
 --n_epochs 100 \
 --auto_resume \
 --train_subdir train \
---model xcresnet \
+--model resnet \
 --model_depth 50 \
---n_threads 12 \
+--n_threads 6 \
 --learning_rate 0.01 \
+--lr_step 20 \
+--lr_patience 5 \
 --checkpoint 1 2>error.log |tee  data/$log_dir/screen.log & 

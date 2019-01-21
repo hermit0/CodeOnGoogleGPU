@@ -19,6 +19,7 @@ def val_epoch(epoch, data_loader, model, criterion, opt, logger):
 
         if not opt.no_cuda:
             targets = targets.cuda(async=True)
+            inputs = inputs.cuda()
         with torch.no_grad():
             inputs = Variable(inputs)
             targets = Variable(targets)

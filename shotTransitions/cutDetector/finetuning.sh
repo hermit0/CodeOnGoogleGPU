@@ -8,16 +8,17 @@ nohup python -u main.py \
 --result_path $log_dir \
 --n_classes 400 \
 --n_finetune_classes 2 \
---pretrain_path pretrain_models/resnet-50-kinetics.pth \
---ft_begin_index 0 \
---sample_size 128 \
---sample_duration 6 \
---batch_size 128 \
+--pretrain_path pretrain_models/resnext-101-kinetics.pth \
+--ft_begin_index 4 \
+--sample_size 112 \
+--sample_duration 16 \
+--batch_size 256 \
 --n_epochs 100 \
 --auto_resume \
 --train_subdir train \
---model resnet \
---model_depth 50 \
+--model resnext \
+--model_depth 101 \
 --n_threads 12 \
---learning_rate 0.01 \
---checkpoint 1 2>error.log |tee  data/$log_dir/screen.log
+--learning_rate 0.001 \
+--weight_decay 1e-5 \
+--checkpoint 1 2>error.log |tee  data/$log_dir/screen.log &

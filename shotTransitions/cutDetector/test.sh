@@ -12,8 +12,8 @@ nohup python -u main.py \
 --sample_size 128 \
 --sample_duration 6 \
 --batch_size 128 \
---resume_path results/model_epoch15.pth \
+--resume_path results/model_epoch44.pth \
 --test_subdir test \
 --model xcresnet \
 --model_depth 50 \
---n_threads 12 |tee  data/$log_dir/screen.log 
+--n_threads 12 |tee  data/$log_dir/screen.log &

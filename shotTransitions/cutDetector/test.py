@@ -25,6 +25,8 @@ def test(data_loader, model, opt):
 
         with torch.no_grad():
             inputs = Variable(inputs)
+            if not opt.no_cuda:
+                inputs = inputs.cuda()
             outputs = model(inputs)
             outputs = F.softmax(outputs,dim=1)
             _, pred = outputs.topk(1, 1, True)    

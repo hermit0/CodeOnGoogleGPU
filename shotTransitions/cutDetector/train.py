@@ -23,6 +23,7 @@ def train_epoch(epoch, data_loader, model, criterion, optimizer, opt,
 
         if not opt.no_cuda:
             targets = targets.cuda(async=True)
+            inputs = inputs.cuda()
         inputs = Variable(inputs)
         targets = Variable(targets)
         outputs = model(inputs)
