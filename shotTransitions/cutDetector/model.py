@@ -122,7 +122,7 @@ def generate_model(opt):
             
             model.load_state_dict(pretrain['state_dict'])
             
-            modele.fc = nn.Linear(model.fc.in_features,
+            model.fc = nn.Linear(model.fc.in_features,
                                             opt.n_finetune_classes)
             model.fc = model.fc.cuda()
             
