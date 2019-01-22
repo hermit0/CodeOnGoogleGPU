@@ -7,13 +7,13 @@ nohup python -u  main.py \
 --val_list_path val_samples \
 --result_path $log_dir \
 --n_classes 2 \
---sample_size 128 \
+--sample_size 112 \
 --sample_duration 16 \
---batch_size 32 \
+--batch_size 128 \
 --n_epochs 100 \
 --auto_resume \
 --train_subdir train \
---model resnet \
+--model xcresnet \
 --model_depth 50 \
 --n_threads 6 \
 --learning_rate 0.01 \

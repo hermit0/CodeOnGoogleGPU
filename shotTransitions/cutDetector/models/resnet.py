@@ -2,6 +2,7 @@
 #3D-resnet
 import torch
 import torch.nn as nn
+import math
 
 __all__ = [
     'ResNet', 'resnet10', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
