@@ -74,7 +74,8 @@ def generate_train_samples(video_list_path, gt_path, candidates_path,output_file
             for begin,_ in cuts:
                 sample = (video, begin, 1)
                 out_samples.append(sample)
-            negative_num = min(2 * len(cuts),len(negative_candidates))
+            #negative_num = min(2 * len(cuts),len(negative_candidates))
+            negative_num = int(min(0.5 * len(cuts),len(negative_candidates)))#正负样本比例为2:1
             #pdb.set_trace()
             if negative_num == 0:
                 negative_num = min(len(negative_candidates),10)
