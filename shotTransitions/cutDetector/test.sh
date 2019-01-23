@@ -6,14 +6,14 @@ nohup python -u main.py \
 --no_val \
 --test \
 --root_dir ~/CodeOnGoogleGPU/shotTransitions/cutDetector/data \
---test_list_path test_samples \
+--test_list_path val_samples \
 --result_path $log_dir \
 --n_classes 2 \
---sample_size 128 \
---sample_duration 6 \
---batch_size 128 \
---resume_path results/model_epoch44.pth \
---test_subdir test \
---model xcresnet \
+--sample_size 112 \
+--sample_duration 16 \
+--batch_size 32 \
+--resume_path results/model_epoch3.pth \
+--test_subdir train \
+--model resnet \
 --model_depth 50 \
---n_threads 12 |tee  data/$log_dir/screen.log &
+--n_threads 12 |tee  data/$log_dir/screen_test.log &

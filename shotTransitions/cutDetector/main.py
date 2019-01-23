@@ -68,7 +68,8 @@ if __name__ == '__main__':
     
     model, parameters = generate_model(opt)
     print(model)
-    criterion = nn.CrossEntropyLoss()
+    loss_weight = torch.tensor([1.0,2.0])
+    criterion = nn.CrossEntropyLoss(weight=loss_weight)
     if not opt.no_cuda:
         criterion = criterion.cuda()
     norm_method = Normalize(opt.mean, [1, 1, 1])
@@ -146,7 +147,7 @@ if __name__ == '__main__':
     print('run')
     for i in range(opt.begin_epoch, opt.n_epochs + 1):
         if not opt.no_train:
-            step_scheduler.step()
+            #step_scheduler.step()
             train_epoch(i, train_loader, model, criterion, optimizer, opt,
                         train_logger, train_batch_logger,step_scheduler,val_scheduler)
         if not opt.no_val:
