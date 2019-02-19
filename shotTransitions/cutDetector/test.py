@@ -43,7 +43,10 @@ def test(data_loader, model, opt):
             if video_name != previous_video_name:
                 if len(output_buffer) > 0:
                     test_results[previous_video_name] = output_buffer
-                    output_buffer = []
+                    if video_name not in test_results:
+                        output_buffer = []
+                    else:
+                        output_buffer = test_results[video_name]
             output_buffer.append((frame_no,pred[j].item()))
             previous_video_name = video_name
             
