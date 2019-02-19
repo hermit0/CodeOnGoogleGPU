@@ -68,7 +68,7 @@ if __name__ == '__main__':
     
     model, parameters = generate_model(opt)
     print(model)
-    loss_weight = torch.tensor([1.0,2.0])
+    loss_weight = torch.tensor([1.0,2.33])
     criterion = nn.CrossEntropyLoss(weight=loss_weight)
     if not opt.no_cuda:
         criterion = criterion.cuda()
