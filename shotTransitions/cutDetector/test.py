@@ -43,10 +43,7 @@ def test(data_loader, model, opt):
             if video_name != previous_video_name:
                 if len(output_buffer) > 0:
                     test_results[previous_video_name] = output_buffer
-                    if video_name not in test_results:
-                        output_buffer = []
-                    else:
-                        output_buffer = test_results[video_name]
+                    output_buffer = []
             output_buffer.append((frame_no,pred[j].item()))
             previous_video_name = video_name
             
@@ -68,6 +65,6 @@ def test(data_loader, model, opt):
         if len(output_buffer) > 0:
             test_results[previous_video_name] = output_buffer
             output_buffer = []
-    print('Average accuracy is .3f', accuracies.avg)
+    print('Average accuracy is %.3f', accuracies.avg)
     with open(os.path.join(opt.result_path, 'predict.json'), 'w') as f:
         json.dump(test_results, f)

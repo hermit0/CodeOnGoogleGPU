@@ -69,7 +69,8 @@ if __name__ == '__main__':
     model, parameters = generate_model(opt)
     print(model)
     loss_weight = torch.tensor([1.0,2.33])
-    criterion = nn.CrossEntropyLoss(weight=loss_weight)
+    #criterion = nn.CrossEntropyLoss(weight=loss_weight)
+    criterion = nn.CrossEntropyLoss()
     if not opt.no_cuda:
         criterion = criterion.cuda()
     norm_method = Normalize(opt.mean, [1, 1, 1])
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     print('run')
     for i in range(opt.begin_epoch, opt.n_epochs + 1):
         if not opt.no_train:
-            #step_scheduler.step()
+            step_scheduler.step()
             train_epoch(i, train_loader, model, criterion, optimizer, opt,
                         train_logger, train_batch_logger,step_scheduler,val_scheduler)
         if not opt.no_val:
@@ -156,6 +157,19 @@ if __name__ == '__main__':
 
         if not opt.no_train and not opt.no_val:
             val_scheduler.step(validation_loss)
+            #保存val_scheduler
+            if i % opt.checkpoint == 0:
+                save_file_path = os.path.join(opt.result_path,
+                                              'model_epoch{}.pth'.format(i))
+                states = {
+                    'epoch': i + 1,
+                    'arch': opt.arch,
+                    'state_dict': model.state_dict(),
+                    'optimizer': optimizer.state_dict(),
+                    'step_scheduler': step_scheduler.state_dict(),
+                    'val_scheduler': val_scheduler.state_dict()
+                }
+                torch.save(states,save_file_path)
     if opt.test:
         spatial_transform = Compose([
             Scale(opt.sample_size),
