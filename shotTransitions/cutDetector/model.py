@@ -2,11 +2,11 @@
 import torch
 from torch import nn
 
-from models import x_channel_resnet,resnet,resnext
+from models import x_channel_resnet,resnet,resnext,i6f_resnet
 
 def generate_model(opt):
     assert opt.model in [
-        'xcresnet','resnet','resnext'
+        'xcresnet','resnet','resnext','i6f_resnet'
     ]
     
     if opt.model == 'xcresnet':
@@ -108,6 +108,53 @@ def generate_model(opt):
                 num_classes=opt.n_classes,
                 shortcut_type=opt.resnet_shortcut,
                 cardinality=opt.resnext_cardinality,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+    elif opt.model == 'i6f_resnet':
+        assert opt.model_depth in [10, 18, 34, 50, 101, 152, 200]
+
+        #from models.resnet import get_fine_tuning_parameters
+
+        if opt.model_depth == 10:
+            model = i6f_resnet.i6f_resnet10(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+        elif opt.model_depth == 18:
+            model = i6f_resnet.i6f_resnet18(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+        elif opt.model_depth == 34:
+            model = i6f_resnet.i6f_resnet34(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+        elif opt.model_depth == 50:
+            model = i6f_resnet.i6f_resnet50(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+        elif opt.model_depth == 101:
+            model = i6f_resnet.i6f_resnet101(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+        elif opt.model_depth == 152:
+            model = i6f_resnet.i6f_resnet152(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
+                sample_size=opt.sample_size,
+                sample_duration=opt.sample_duration)
+        elif opt.model_depth == 200:
+            model = i6f_resnet.i6f_resnet200(
+                num_classes=opt.n_classes,
+                shortcut_type=opt.resnet_shortcut,
                 sample_size=opt.sample_size,
                 sample_duration=opt.sample_duration)
     
