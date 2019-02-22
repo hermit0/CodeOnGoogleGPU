@@ -113,28 +113,7 @@ class imgConcat(nn.Module):
             x = x.view(batch_size,-1,img_h,img_w)
             #print(x.size())
         return x
-'''
-将输入的张量(N,C,T,H,W)通过时间上的卷积转换为(N,C*T,H,W)
-'''
-class imgConcat_new(nn.Module):
-    def __init__(self,image_nums):
-        super(imgConcat_new, self).__init__()
-        self.conv = nn.Conv3d(3,3*image_nums,kernel_size=(image_nums,1,1),stride=1,padding=0,bias=False)
-        self.bn = nn.BatchNorm2d(3*image_nums)
-        self.relu = nn.ReLU(inplace=True)
-    def forward(self, x):
-        if len(x.size()) == 5:
-            x = self.conv(x)
-            batch_size = x.size()[0]
-            img_h = x.size()[-2]
-            img_w = x.size()[-1]
-            channel_size = x.size()[1]
-            depth = x.size()[2]
-            x = x.view(batch_size,-1,img_h,img_w)
-            x = self.bn(x)
-            x = self.relu(x)
-        return x
-
+        
 '''
 在ResNet的基础上修改，增加image concatenation层，将多张图像视为多通道图像
 '''
@@ -145,8 +124,7 @@ class xcResNet(nn.Module):
         self.inplanes = 64
         #self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
         #                       bias=False)
-        #self.concat = imgConcat()
-        self.concat = imgConcat_new(image_nums)
+        self.concat = imgConcat()
         self.conv1 = nn.Conv2d(3*image_nums,64,kernel_size=7,stride=2,padding=3,bias=False) 
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)

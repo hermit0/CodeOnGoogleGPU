@@ -171,16 +171,23 @@ class i6f_ResNet(nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
+        #print(x.size())
         x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)
+        #print(x.size())
 
         x = self.layer1(x)
+        #print(x.size())
         x = self.layer2(x)
+        #print(x.size())
         x = self.layer3(x)
+        #print(x.size())
         x = self.layer4(x)
+        #print(x.size())
 
         x = self.avgpool(x)
+        #print(x.size())
 
         x = x.view(x.size(0), -1)
         x = self.fc(x)
