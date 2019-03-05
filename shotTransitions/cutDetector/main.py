@@ -18,6 +18,7 @@ from target_transforms import ClassLabel
 from train import train_epoch
 from validation import val_epoch
 import test
+from extract_features import extract
 
 def get_mean(norm_value=255):
     return [
@@ -68,9 +69,9 @@ if __name__ == '__main__':
     
     model, parameters = generate_model(opt)
     print(model)
-    loss_weight = torch.tensor([1.0,2.33])
-    #criterion = nn.CrossEntropyLoss(weight=loss_weight)
-    criterion = nn.CrossEntropyLoss()
+    loss_weight = torch.tensor([1.0,3])
+    criterion = nn.CrossEntropyLoss(weight=loss_weight)
+    #criterion = nn.CrossEntropyLoss()
     if not opt.no_cuda:
         criterion = criterion.cuda()
     norm_method = Normalize(opt.mean, [1, 1, 1])
@@ -88,11 +89,14 @@ if __name__ == '__main__':
                                 spatial_transform=spatial_transform,
                                 temporal_transform=temporal_transform,
                                 target_transform=target_transform, sample_duration=opt.sample_duration)
+        weights = torch.DoubleTensor(training_data.weights)
+        sampler = torch.utils.data.sampler.WeightedRandomSampler(weights,len(weights))
         train_loader = torch.utils.data.DataLoader(
             training_data,
             batch_size=opt.batch_size,
             shuffle=True,
             num_workers=opt.n_threads,
+            #sampler = sampler,
             pin_memory=True)
         train_logger = Logger(
             os.path.join(opt.result_path, 'train.log'),
@@ -190,3 +194,23 @@ if __name__ == '__main__':
             num_workers=opt.n_threads,
             pin_memory=True)
         test.test(test_loader, model, opt)
+    if opt.extract_feature:
+        spatial_transform = Compose([
+            Scale(opt.sample_size),
+            CenterCrop(opt.sample_size),
+            ToTensor(opt.norm_value), norm_method
+        ])
+        temporal_transform = None
+        target_transform = None
+        
+        test_data = DataSet(opt.test_subdir,opt.test_list_path,
+                            spatial_transform=spatial_transform,
+                            temporal_transform=temporal_transform,
+                            target_transform=target_transform, sample_duration=opt.sample_duration)
+        test_loader = torch.utils.data.DataLoader(
+            test_data,
+            batch_size=opt.batch_size,
+            shuffle=False,
+            num_workers=opt.n_threads,
+            pin_memory=True)
+        extract(test_loader, model, opt)

@@ -192,6 +192,15 @@ def parse_opts():
         help=
         'Training begins at this epoch. Previous trained model indicated by resume_path is loaded.'
     )
+    parser.add_argument(
+        '--extract_feature', 
+        action='store_true', 
+        help='If true, features is extracted.')
+    parser.set_defaults(extract_feature=False)
+    parser.add_argument(
+        '--output_feature_path',
+        type=str,
+        help='the path of extracted features')
     args = parser.parse_args()
 
     return args

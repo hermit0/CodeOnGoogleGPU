@@ -160,7 +160,7 @@ def generate_model(opt):
     
     if not opt.no_cuda:
         model = model.cuda()
-        model = nn.DataParallel(model,device_ids=None)
+        #model = nn.DataParallel(model,device_ids=None)
         
         if opt.pretrain_path:
             print('loading pretrained model {}'.format(opt.pretrain_path))
@@ -174,6 +174,7 @@ def generate_model(opt):
             model.fc = model.fc.cuda()
             
             parameters = get_fine_tuning_parameters(model, opt.ft_begin_index)
+            model = nn.DataParallel(model,device_ids=None)
             return model,parameters
     else:
         if opt.pretrain_path:
@@ -188,5 +189,6 @@ def generate_model(opt):
             
             parameters = get_fine_tuning_parameters(model, opt.ft_begin_index)
             return model,parameters
+    #model = nn.DataParallel(model,device_ids=None)
     return model, model.parameters()
                 
