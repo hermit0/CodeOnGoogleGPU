@@ -189,6 +189,6 @@ def generate_model(opt):
             
             parameters = get_fine_tuning_parameters(model, opt.ft_begin_index)
             return model,parameters
-    #model = nn.DataParallel(model,device_ids=None)
+    model = nn.DataParallel(model,device_ids=None)
     return model, model.parameters()
                 

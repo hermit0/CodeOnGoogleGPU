@@ -1,9 +1,9 @@
-log_dir=results_new_try
+log_dir=results_final
 
 #从头开始训练模型或者从最近的检查点恢复训练，提供验证集进行验证
 nohup python -u  main.py \
 --root_dir ~/CodeOnGoogleGPU/shotTransitions/cutDetector/data \
---train_list_path train+val_samples_first \
+--train_list_path train+val_samples_1_6 \
 --no_val \
 --val_list_path val_samples \
 --result_path $log_dir \

@@ -1,4 +1,4 @@
-log_dir=results_50_six
+log_dir=results_final
 
 #根据训练好的模型文件来在测试集上进行测试
 nohup python -u main.py \
@@ -12,7 +12,7 @@ nohup python -u main.py \
 --sample_size 112 \
 --sample_duration 16 \
 --batch_size 64 \
---resume_path $log_dir/model_epoch4.pth \
+--resume_path $log_dir/model_epoch4.pth-2 \
 --test_subdir test \
 --model resnet \
 --model_depth 50 \

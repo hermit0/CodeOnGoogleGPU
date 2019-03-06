@@ -5,7 +5,7 @@ nohup python -u main.py \
 --no_train \
 --no_val \
 --extract_feature \
---output_feature_path test_features \
+--output_feature_path test_features_fc \
 --root_dir ~/CodeOnGoogleGPU/shotTransitions/cutDetector/data \
 --test_list_path test_samples_l3.5_g1.2 \
 --result_path $log_dir \

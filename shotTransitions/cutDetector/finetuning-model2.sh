@@ -1,4 +1,4 @@
-log_dir=results_50_six
+log_dir=results_final
 
 #对kinetics上预训练的模型进行finetuing
 nohup python -u main.py \
@@ -10,7 +10,7 @@ nohup python -u main.py \
 --n_classes 2 \
 --n_finetune_classes 2 \
 --pretrain_path pretrain_models/model_epoch2.pth \
---ft_begin_index 3 \
+--ft_begin_index 2 \
 --sample_size 112 \
 --sample_duration 16 \
 --batch_size 64 \

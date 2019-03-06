@@ -21,7 +21,8 @@ def extract(data_loader, model, opt):
     model.eval()
     #for name,module in model.named_modules():
     #    print(name)
-    extracted_layer = model.avgpool #要提取输出的层的完整名称
+    #extracted_layer = model.avgpool #要提取输出的层的完整名称
+    extracted_layer = model.fc
     extracted_layer.register_forward_hook(get_features)
     
     batch_time = AverageMeter()
